@@ -89,6 +89,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="chess\Board.cs" />
+    <Compile Include="chess\ChessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="chess\ChessForm.Designer.cs">
+      <DependentUpon>ChessForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="chess\ChessMovement.cs" />
+    <Compile Include="chess\ChessPiece.cs" />
+    <Compile Include="chess\Square.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +107,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="chess\ChessForm.resx">
+      <DependentUpon>ChessForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,5 +136,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
