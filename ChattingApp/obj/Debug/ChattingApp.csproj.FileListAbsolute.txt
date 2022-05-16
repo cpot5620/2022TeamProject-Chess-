@@ -1,0 +1,10 @@
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.exe.config
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.exe
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.pdb
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csprojResolveAssemblyReference.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.Form1.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.Properties.Resources.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csproj.GenerateResource.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csproj.CoreCompileInputs.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.exe
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.pdb
