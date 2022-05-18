@@ -349,7 +349,6 @@ namespace DBtest.chess
             }
             setWhite();
             setBlack();
-            
         }
 
         public void setWhite() // White Piece 초기 설정
@@ -460,6 +459,18 @@ namespace DBtest.chess
             ofPosition[1, 7].pieceName = ChessPiece.PAWN;
             ofPosition[1, 7].team = ChessTeam.BLACK;
 
+        }
+
+        public void setExpectedClear() // Board의 모든 expected mark 초기화
+        {
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    ofPosition[row, col].IsExpected = false;
+                    ofPosition[row, col].whoseExpected = ChessPiece.NONE;
+                }
+            }
         }
     }
 }
