@@ -1,6 +1,6 @@
 ﻿namespace ChattingApp
 {
-    partial class Form1
+    partial class chatting
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -84,7 +84,7 @@
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form1
+            // chatting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -94,7 +94,7 @@
             this.Controls.Add(this.btn_Send);
             this.Controls.Add(this.btn_Connect);
             this.Controls.Add(this.txt_all);
-            this.Name = "Form1";
+            this.Name = "chatting";
             this.Text = "Chatting";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();

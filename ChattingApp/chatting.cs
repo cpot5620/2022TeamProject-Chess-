@@ -14,12 +14,12 @@ using System.Net.Sockets;
 using System.Threading;
 namespace ChattingApp
 {
-    public partial class Form1 : Form
+    public partial class chatting : Form
     {
         public NetworkStream m_Stream;
         public StreamReader m_Read;
         public StreamWriter m_Write;
-        const int PORT = 2222;
+        public int PORT;
         private Thread m_ThReader;
 
         public bool m_bStop = false;
@@ -29,11 +29,17 @@ namespace ChattingApp
         public bool m_bConnect = false;
         TcpClient m_Client;
 
-        public Form1()
+        public chatting()
         {
             InitializeComponent();
+            m_thServer = new Thread(new ThreadStart(ServerStart));
+            m_thServer.Start();
         }
-
+        public chatting(string str)
+        {
+            InitializeComponent();
+            this.PORT = Int32.Parse(str);
+        }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             ServerStop();
@@ -54,10 +60,13 @@ namespace ChattingApp
         {
             try
             {
+                Random rand = new Random();
+                PORT = rand.Next(10000, 99999);
                 m_listener = new TcpListener(PORT);
                 m_listener.Start();
 
                 m_bStop = true;
+                Message("방 입장 Code : " + PORT.ToString());
                 Message("상대방 접속 대기중...");
 
                 while (m_bStop)
@@ -68,7 +77,7 @@ namespace ChattingApp
                     {
                         m_bConnect = true;
                         Message("상대방 접속 완료");
-
+                        
                         m_Stream = hClient.GetStream();
                         m_Read = new StreamReader(m_Stream);
                         m_Write = new StreamWriter(m_Stream);
