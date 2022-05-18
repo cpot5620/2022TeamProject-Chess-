@@ -38,7 +38,6 @@ namespace ChattingApp
             {
                 ChessForm Form = new ChessForm(txtPort.Text);
                 Form.Show();
-                Form.Connect();
                 this.Close();
             }
         }

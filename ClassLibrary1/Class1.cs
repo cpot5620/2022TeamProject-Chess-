@@ -14,6 +14,13 @@ namespace ClassLibrary1
         Message,
         ChessBoard
     }
+    public enum PacketSendERROR
+    {
+        정상 = 0,
+        에러
+    }
+
+    [Serializable]
     public class Packet
     {
         public int type;
@@ -46,14 +53,14 @@ namespace ClassLibrary1
     }
 
     [Serializable]
-    public class Message : Packet
+    public class SendMessage : Packet
     {
         public string msg;
-        public Message()
+        public SendMessage()
         {
             this.msg = null;
         }
-        public Message(string str)
+        public SendMessage(string str)
         {
             this.msg = str;
         }

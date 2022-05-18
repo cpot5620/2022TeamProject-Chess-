@@ -23,12 +23,14 @@ namespace DBtest.chess
         private byte[] readBuffer = new byte[1024 * 4];
         public int PORT;
         private Thread m_ThReader;
+
         TcpClient hClient;
         public bool m_bStop = false;
         private TcpListener m_listener;
         private Thread m_thServer;
         private Thread m_thStream;
         ChessBoard chessBoard;
+        SendMessage message;
         public bool m_bConnect = false;
         TcpClient m_Client;
 
@@ -61,6 +63,8 @@ namespace DBtest.chess
             tmrClock.Start();
 
             this.PORT = Int32.Parse(str);
+            m_thServer = new Thread(new ThreadStart(Connect));
+            m_thServer.Start();
         }
 
 
@@ -96,13 +100,32 @@ namespace DBtest.chess
                         m_bConnect = true;
                         Message("상대방 접속 완료");
                         m_Stream = hClient.GetStream();
+                        break;
+                    }
+                }
+                while (m_bStop)
+                {
+                    if (m_Stream.DataAvailable)
+                    {
+                        this.m_Stream.Read(readBuffer, 0, 1024 * 4);
+                        Packet packet = (Packet)Packet.Desserialize(this.readBuffer);
+                        switch ((int)packet.type)
+                        {
+                            case (int)PacketType.Message:
+                                this.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    this.message = (SendMessage)Packet.Desserialize(this.readBuffer);
+                                    m_ThReader = new Thread(new ThreadStart(Receive));
+                                    m_ThReader.Start();
+                                }));
+                                break;
+                        }
                     }
 
-                    m_Read = new StreamReader(m_Stream);
-                    m_Write = new StreamWriter(m_Stream);
 
+                    /*
                     m_ThReader = new Thread(new ThreadStart(Receive));
-                    m_ThReader.Start();
+                    m_ThReader.Start();*/
 
                 }
             }
@@ -126,15 +149,13 @@ namespace DBtest.chess
                 return;
             if (m_bConnect)
             {
-                m_Read.Close();
-                m_Write.Close();
                 m_Stream.Close();
-                m_ThReader.Abort();
                 hClient.Close();
             }
             m_listener.Stop();
             m_thServer.Abort();
             Message("서버 종료");
+            m_bStop = false;
         }
 
         public void Disconnect()
@@ -142,10 +163,7 @@ namespace DBtest.chess
             if (!m_bConnect)
                 return;
             m_bConnect = false;
-            m_Read.Close();
-            m_Write.Close();
             m_Stream.Close();
-            m_ThReader.Abort();
 
             Message("상대방과 연결 중단");
         }
@@ -166,39 +184,63 @@ namespace DBtest.chess
             Message("서버 연결");
 
             m_Stream = m_Client.GetStream();
-
-            m_Read = new StreamReader(m_Stream);
-            m_Write = new StreamWriter(m_Stream);
-
-            m_ThReader = new Thread(new ThreadStart(Receive));
-            m_ThReader.Start();
+            while (m_bConnect)
+            {
+                if (m_Stream.DataAvailable)
+                {
+                    try
+                    {
+                        this.m_Stream.Read(readBuffer, 0, 1024 * 4);
+                    }
+                    catch
+                    {
+                        this.m_bConnect = false;
+                        this.m_Stream = null;
+                    }
+                    Packet packet = (Packet)Packet.Desserialize(this.readBuffer);
+                    switch ((int)packet.type)
+                    {
+                        case (int)PacketType.Message:
+                            this.Invoke(new MethodInvoker(delegate ()
+                            {
+                                this.message = (SendMessage)Packet.Desserialize(this.readBuffer);
+                                m_ThReader = new Thread(new ThreadStart(Receive));
+                                m_ThReader.Start();
+                            }));
+                            break;
+                    }
+                }
+            }
+            // m_ThReader = new Thread(new ThreadStart(Receive));
+            // m_ThReader.Start();
         }
 
         public void Receive()
         {
             try
             {
-                while (m_bConnect)
-                {
-                    string szMessage = m_Read.ReadLine();
+                string szMessage = message.msg;
 
-                    if (szMessage != null)
-                        Message("상대방 >>> : " + szMessage);
-                }
+                if (szMessage != null)
+                    Message("상대방 >>> : " + szMessage);
             }
             catch
             {
                 Message("메세지 오류 발생");
+                Disconnect();
             }
-            Disconnect();
         }
 
         public void SendMsg()
         {
             try
             {
-                m_Write.WriteLine(txt_msg.Text);
-                m_Write.Flush();
+                SendMessage msg = new SendMessage();
+                msg.type = (int)PacketType.Message;
+                msg.msg = txt_msg.Text;
+
+                Packet.Serialize(msg).CopyTo(this.sendBuffer, 0);
+                this.Send();
 
                 Message(">>> : " + txt_msg.Text);
                 txt_msg.Text = "";
