@@ -1,0 +1,6 @@
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+C:\Users\ac8co\source\repos\Chatting\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

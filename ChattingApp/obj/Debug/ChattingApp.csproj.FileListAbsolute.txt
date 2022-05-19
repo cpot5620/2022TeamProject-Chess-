@@ -1,0 +1,16 @@
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.exe.config
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.exe
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ChattingApp.pdb
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csprojResolveAssemblyReference.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.Properties.Resources.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csproj.GenerateResource.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csproj.CoreCompileInputs.cache
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.exe
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.pdb
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.accessForm.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.chatting.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.lobby.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ClassLibrary1.dll
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\bin\Debug\ClassLibrary1.pdb
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\DBtest.chess.ChessForm.resources
+C:\Users\ac8co\source\repos\Chatting\ChattingApp\obj\Debug\ChattingApp.csproj.CopyComplete
