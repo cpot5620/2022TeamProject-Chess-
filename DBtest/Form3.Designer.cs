@@ -53,6 +53,7 @@
             // 
             // user_picture
             // 
+            this.user_picture.Enabled = false;
             this.user_picture.InitialImage = null;
             this.user_picture.Location = new System.Drawing.Point(87, 33);
             this.user_picture.Name = "user_picture";
@@ -100,40 +101,50 @@
             // 
             // txt_name
             // 
+            this.txt_name.Enabled = false;
             this.txt_name.Location = new System.Drawing.Point(408, 30);
             this.txt_name.Name = "txt_name";
+            this.txt_name.ReadOnly = true;
             this.txt_name.Size = new System.Drawing.Size(220, 21);
             this.txt_name.TabIndex = 5;
             // 
             // txt_id
             // 
+            this.txt_id.Enabled = false;
             this.txt_id.Location = new System.Drawing.Point(408, 88);
             this.txt_id.Name = "txt_id";
+            this.txt_id.ReadOnly = true;
             this.txt_id.Size = new System.Drawing.Size(220, 21);
             this.txt_id.TabIndex = 6;
             // 
             // txt_email
             // 
+            this.txt_email.Enabled = false;
             this.txt_email.Location = new System.Drawing.Point(408, 143);
             this.txt_email.Name = "txt_email";
+            this.txt_email.ReadOnly = true;
             this.txt_email.Size = new System.Drawing.Size(220, 21);
             this.txt_email.TabIndex = 7;
             // 
             // txt_phone
             // 
+            this.txt_phone.Enabled = false;
             this.txt_phone.Location = new System.Drawing.Point(408, 205);
             this.txt_phone.Name = "txt_phone";
+            this.txt_phone.ReadOnly = true;
             this.txt_phone.Size = new System.Drawing.Size(220, 21);
             this.txt_phone.TabIndex = 8;
             // 
             // btn_delete
             // 
+            this.btn_delete.Enabled = false;
             this.btn_delete.Location = new System.Drawing.Point(674, 385);
             this.btn_delete.Name = "btn_delete";
             this.btn_delete.Size = new System.Drawing.Size(75, 23);
             this.btn_delete.TabIndex = 9;
             this.btn_delete.Text = "삭제";
             this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
             // btn_edit
             // 
@@ -143,6 +154,7 @@
             this.btn_edit.TabIndex = 10;
             this.btn_edit.Text = "편집";
             this.btn_edit.UseVisualStyleBackColor = true;
+            this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
             // 
             // btn_back
             // 
@@ -171,22 +183,28 @@
             // 
             // textBox7
             // 
+            this.textBox7.Enabled = false;
             this.textBox7.Location = new System.Drawing.Point(309, 47);
             this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(39, 21);
             this.textBox7.TabIndex = 11;
             // 
             // textBox6
             // 
+            this.textBox6.Enabled = false;
             this.textBox6.Location = new System.Drawing.Point(160, 47);
             this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(39, 21);
             this.textBox6.TabIndex = 10;
             // 
             // textBox5
             // 
+            this.textBox5.Enabled = false;
             this.textBox5.Location = new System.Drawing.Point(22, 47);
             this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(39, 21);
             this.textBox5.TabIndex = 9;
             // 

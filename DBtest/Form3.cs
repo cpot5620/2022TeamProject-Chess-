@@ -21,6 +21,8 @@ namespace DBtest
         string _id = "admin";
         string _pw = "kwchessawsqkrqudwp";
         string _connectionAddress = "";
+        Boolean form4_opening = false;
+        Boolean save = true;
         public form3()
         {
             InitializeComponent();
@@ -30,10 +32,48 @@ namespace DBtest
 
         private void btn_back_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Form4 form4 = new Form4();
-            form4.ShowDialog();
-            this.Close();
+            if (btn_back.Text == "뒤로")
+            {
+                this.Hide();
+                Form4 form4 = new Form4();
+                form4.Text = "새창1";
+                form4_opening = true;
+                form4.ShowDialog();
+                this.Close();
+            }
+            if (btn_back.Text == "저장")
+            {
+                if (MessageBox.Show("저장하시겠습니까?", "SAVE", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    save = true;
+                    edit_save();
+                    btn_delete.Enabled = false;
+                    this.Text = "...";
+                    txt_name.ReadOnly = true;
+                    txt_email.ReadOnly = true;
+                    txt_phone.ReadOnly = true;
+                    txt_name.Enabled = false;
+                    txt_email.Enabled = false;
+                    txt_phone.Enabled = false;
+                    user_picture.Enabled = false;
+                    btn_back.Text = "뒤로";
+                }
+                else
+                {
+                    save = false;
+                    btn_delete.Enabled = false;
+                    this.Text = "...";
+                    txt_name.ReadOnly = true;
+                    txt_email.ReadOnly = true;
+                    txt_phone.ReadOnly = true;
+                    txt_name.Enabled = false;
+                    txt_email.Enabled = false;
+                    txt_phone.Enabled = false;
+                    user_picture.Enabled = false;
+                    btn_back.Text = "뒤로";
+                }
+
+            }
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -107,9 +147,76 @@ namespace DBtest
         private void form3_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Hide();
-            Form4 form4 = new Form4();
-            form4.ShowDialog();
+            if (form4_opening == false) {
+                Form4 form4 = new Form4();
+                form4.Text = "새창2";
+                form4.ShowDialog();
+            }
             this.Close();
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("정말로 삭제하시겠습니까?", "DELETE", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
+                    {
+                        mysql.Open();
+                        string deleteQuery = string.Format("delete from accounts_table where name = {0};", auth_user);
+                        MySqlCommand command = new MySqlCommand(deleteQuery, mysql);
+                        if (command.ExecuteNonQuery() != 1)
+                        {
+                            throw new Exception("삭제 실패");
+                        }
+                        mysql.Close();
+                        this.Hide();
+                        Form4 form1 = new Form4();
+                        form1.ShowDialog();
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void btn_edit_Click(object sender, EventArgs e)
+        {
+            btn_delete.Enabled = true;
+            this.Text = "Edit Profile...";
+            txt_name.ReadOnly = false;
+            txt_email.ReadOnly = false;
+            txt_phone.ReadOnly = false;
+            txt_name.Enabled = true;
+            txt_email.Enabled = true;
+            txt_phone.Enabled = true;
+            user_picture.Enabled = true;
+            btn_back.Text = "저장";
+        }
+        private void edit_save()
+        {
+            try
+            {
+                using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
+                {
+                    mysql.Open();
+                    string updateQuery = string.Format("UPDATE accounts_table SET user_name = '{0}', user_email = '{1}', user_phone = '{2}' WHERE name = '{3}';", txt_name.Text, txt_email.Text, txt_phone.Text, auth_user);
+                    MySqlCommand command = new MySqlCommand(updateQuery, mysql);
+                    if (command.ExecuteNonQuery() != 1)
+                    {
+                        throw new Exception("저장 오류");
+                    }
+                    mysql.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
