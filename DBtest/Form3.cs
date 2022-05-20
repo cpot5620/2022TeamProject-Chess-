@@ -103,5 +103,13 @@ namespace DBtest
         {
 
         }
+
+        private void form3_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Hide();
+            Form4 form4 = new Form4();
+            form4.ShowDialog();
+            this.Close();
+        }
     }
 }

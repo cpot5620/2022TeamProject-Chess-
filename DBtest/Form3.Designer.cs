@@ -237,6 +237,7 @@
             this.Controls.Add(this.user_picture);
             this.Name = "form3";
             this.Text = "Form3";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.form3_FormClosed);
             this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.user_picture)).EndInit();
             this.groupBox1.ResumeLayout(false);

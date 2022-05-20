@@ -30,7 +30,6 @@ namespace DBtest
         {
 
         }
-
         private void btn_insert_Click(object sender, EventArgs e)
         {
             try
@@ -139,6 +138,14 @@ namespace DBtest
                 }
                 return success;
             }
+        }
+
+        private void Form2_Closed(object sender, FormClosedEventArgs e)
+        {
+            this.Hide();
+            Form1 form1 = new Form1();
+            form1.ShowDialog();
+            this.Close();
         }
     }
 }
