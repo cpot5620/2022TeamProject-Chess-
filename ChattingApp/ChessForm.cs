@@ -1,4 +1,5 @@
-﻿using ClassLibrary1;
+﻿using ChattingApp;
+using ClassLibrary1;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +40,10 @@ namespace DBtest.chess
         private bool readyToMove = false; // when marking expected, true
         private Square preSquare;
         private ChessTeam chessTurn;
+
         private const int LIMITTIME = 60;
+
+        public ChessPiece promotionPiece;
 
         public ChessForm()
         {
@@ -398,13 +402,32 @@ namespace DBtest.chess
                     MessageBox.Show("It's just a board");
                 }
             }
+            promotionPawn(curSquare);
             changeChessForm();
             preSquare = curSquare;
 
             // 이동 시 turn 변경
+            // 이동 시 통신 
             if (isMove)
                 changeTurn();
         }
+
+        private void promotionPawn(Square square)
+        {
+            if(square.IsPieceOn && square.pieceName == ChessPiece.PAWN)
+            {
+                if((square.team == ChessTeam.WHITE && square.rowNumber == 0) || (square.team == ChessTeam.BLACK && square.rowNumber == 7))
+                {
+                    PromotionForm promotionForm = new PromotionForm();
+                    promotionForm.Owner=this;
+                    if (promotionForm.ShowDialog() == DialogResult.Cancel)
+                    {
+                        square.pieceName = promotionPiece;
+                    }
+                }
+            }
+        }
+
 
         private void changeChessForm() // change ChessForm 
         {

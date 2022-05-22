@@ -72,6 +72,12 @@
       <DependentUpon>lobby.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="PromotionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PromotionForm.Designer.cs">
+      <DependentUpon>PromotionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="accessForm.resx">
       <DependentUpon>accessForm.cs</DependentUpon>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="lobby.resx">
       <DependentUpon>lobby.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PromotionForm.resx">
+      <DependentUpon>PromotionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
