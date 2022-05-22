@@ -155,7 +155,7 @@ namespace DBtest.chess
                             ofPosition[rowNumber, colNumber].whoseExpected = ChessPiece.PAWN;
                         }
 
-                        if (curRowNumber != 6)
+                        if ((curRowNumber != 6) || (ofPosition[rowNumber, colNumber].IsPieceOn == true))
                             break;
                     }
                     // 공격 이동
@@ -183,7 +183,7 @@ namespace DBtest.chess
                             ofPosition[rowNumber, colNumber].whoseExpected = ChessPiece.PAWN;
                         }
 
-                        if (curRowNumber != 1)
+                        if ((curRowNumber != 1) || (ofPosition[rowNumber, colNumber].IsPieceOn == true))
                             break;
                     }
                     // 공격 이동
@@ -218,7 +218,7 @@ namespace DBtest.chess
                             ofPosition[rowNumber, colNumber].whoseExpected = ChessPiece.NONE;
                         }
 
-                        if (curRowNumber != 6)
+                        if ((curRowNumber != 6) || (ofPosition[rowNumber, colNumber].IsPieceOn == true))
                             break;
                     }
                     // 공격 이동
@@ -247,7 +247,7 @@ namespace DBtest.chess
                             ofPosition[rowNumber, colNumber].whoseExpected = ChessPiece.NONE;
                         }
 
-                        if (curRowNumber != 1)
+                        if ((curRowNumber != 1) || (ofPosition[rowNumber, colNumber].IsPieceOn == true))
                             break;
                     }
                     // 공격 이동

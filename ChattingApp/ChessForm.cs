@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -39,11 +40,14 @@ namespace DBtest.chess
         public Button[,] boardButtons = new Button[8, 8];
         private bool readyToMove = false; // when marking expected, true
         private Square preSquare;
-        private ChessTeam chessTurn;
-
-        private const int LIMITTIME = 60;
-
+        private ChessTeam chessTurn; // 게임 전체 턴
+        private readonly ChessTeam chessTeam; // player 의 team
         public ChessPiece promotionPiece;
+
+        private const int LIMITTIME = 10;
+
+        //private Player player;
+
 
         public ChessForm()
         {
@@ -51,10 +55,14 @@ namespace DBtest.chess
             board.setBoard();
             setButtons();
             chessTurn = ChessTeam.WHITE;
-            tmrTxt.Text = LIMITTIME.ToString();
+            chessTeam = ChessTeam.WHITE;
+            teamTxt.Text = "WHITE";
+            //player 설정
             tmrClock.Start();
+
             m_thServer = new Thread(new ThreadStart(ServerStart));
             m_thServer.Start();
+
         }
 
         public ChessForm(string str)
@@ -63,14 +71,16 @@ namespace DBtest.chess
             board.setBoard();
             setButtons();
             chessTurn = ChessTeam.WHITE;
-            tmrTxt.Text = LIMITTIME.ToString();
+            chessTeam = ChessTeam.BLACK;
+            teamTxt.Text = "BLACK";
+            //player 설정
             tmrClock.Start();
 
             this.PORT = Int32.Parse(str);
             m_thServer = new Thread(new ThreadStart(Connect));
             m_thServer.Start();
-        }
 
+        }
 
         public void Message(string msg)
         {
@@ -107,6 +117,7 @@ namespace DBtest.chess
                         break;
                     }
                 }
+
                 while (m_bStop)
                 {
                     if (m_Stream.DataAvailable)
@@ -123,6 +134,9 @@ namespace DBtest.chess
                                     m_ThReader.Start();
                                 }));
                                 break;
+
+                                // board 받으면 읽어서 해당 데이터로 설정
+                                // changeTurn
                         }
                     }
 
@@ -212,6 +226,9 @@ namespace DBtest.chess
                                 m_ThReader.Start();
                             }));
                             break;
+
+                            /// board 받으면 읽어서 해당 데이터로 설정
+                            // changeTurn
                     }
                 }
             }
@@ -261,6 +278,50 @@ namespace DBtest.chess
                 SendMsg();
         }
 
+        private void SetChessPieceImage(int row, int col)
+        {
+            Square square = board.ofPosition[row, col];
+            ChessPiece piece = square.pieceName;
+            ChessTeam team = square.team;
+            int result = -1;
+
+            // url로 image setting
+            /*WebClient downloader = new WebClient();
+            Stream imgStream = downloader.OpenRead("https://e7.pngegg.com/pngimages/669/663/png-clipart-chess-piece-pawn-white-and-black-in-chess-king-chess-game-king-thumbnail.png");
+            Bitmap resizedImage = new Bitmap(Bitmap.FromStream(imgStream) as Bitmap, new Size(50, 50));
+            Image imgResult = (Image)resizedImage;
+            ImageList img = new ImageList();
+            img.Images.Add(imgResult);*/
+
+            switch (piece)
+            {
+                case ChessPiece.KING:
+                        result = 0;
+                    break;
+                case ChessPiece.QUEEN:
+                        result = 1;
+                    break;
+                case ChessPiece.BISHOP:
+                        result = 2;
+                    break;
+                case ChessPiece.ROOK:
+                        result = 3;
+                    break;
+                case ChessPiece.KNIGHT:
+                        result = 4;
+                    break;
+                case ChessPiece.PAWN:
+                        result = 5;
+                    break;
+            }
+
+            if (team == ChessTeam.BLACK)
+                boardButtons[row, col].ImageList = blackPieceImgList; // set button's imageList
+            else if(team == ChessTeam.WHITE)
+                boardButtons[row, col].ImageList = whitePieceImgList; // set button's imageList
+
+            boardButtons[row, col].ImageIndex = result;
+        }
         private void setButtons() // make buttons in panel
         {
             int btnLength = boardPanel.Width / 8;
@@ -272,17 +333,13 @@ namespace DBtest.chess
                     boardButtons[row, col] = new Button();
                     boardButtons[row, col].Height = btnLength;
                     boardButtons[row, col].Width = btnLength;
+                    boardButtons[row, col].Font = new Font(boardButtons[row, col].Font.FontFamily, 12);
 
                     boardPanel.Controls.Add(boardButtons[row, col]);
                     boardButtons[row, col].Location = new Point(col * btnLength, row * btnLength);
-                    if (board.ofPosition[row, col].pieceName != ChessPiece.NONE)
-                    {
-                        boardButtons[row, col].Text = board.ofPosition[row, col].pieceName.ToString();
-                    }
-                    else
-                    {
-                        boardButtons[row, col].Text = "";
-                    }
+
+                    SetChessPieceImage(row, col);
+
                     boardButtons[row, col].Tag = new Point(row, col);
                     boardButtons[row, col].Click += Board_Button_Click;
 
@@ -316,6 +373,12 @@ namespace DBtest.chess
 
         private void Board_Button_Click(object sender, EventArgs e) // By click buttons, make event
         {
+            /*if (tmrTxt.Text == "READY") // 게임 시작 전이면 동작 X
+                return;
+
+            if (chessTurn != chessTeam) // 자신의 턴이 아니면 동작 X
+                return;*/
+
             Button clickedButton = (Button)sender;
             Point clickedButtonPoint = (Point)clickedButton.Tag;
 
@@ -324,8 +387,7 @@ namespace DBtest.chess
 
             Square curSquare = board.ofPosition[row, col];
             bool isMove = false;
-
-
+            bool isKing = false;
 
             if (curSquare.pieceName != ChessPiece.NONE)
             {
@@ -353,18 +415,11 @@ namespace DBtest.chess
                     curSquare.whoseExpected = tempExpectedChessPiece;
                     curSquare.IsExpected = true;
 
-                    bool isKing = (curSquare.pieceName == ChessPiece.KING); // attack piece가 king인지 확인
+                    isKing = (curSquare.pieceName == ChessPiece.KING); // attack piece가 king인지 확인
 
                     isMove = board.moveChessPiece(preSquare, curSquare);
                     readyToMove = false;
 
-                    if (isKing) // Checkmate
-                    {
-                        changeChessForm();
-                        tmrClock.Stop();
-                        Checkmate();
-                        return;
-                    }
                 }
                 else // click chess piece again -> unmark expected move
                 {
@@ -406,10 +461,19 @@ namespace DBtest.chess
             changeChessForm();
             preSquare = curSquare;
 
-            // 이동 시 turn 변경
-            // 이동 시 통신 
+            if (isKing) // Checkmate
+            {
+                tmrClock.Stop();
+                Checkmate();
+                return;
+            }
+
             if (isMove)
-                changeTurn();
+            {
+                // 이동 시 board 정보 보내기
+
+                changeTurn(); // 이동 시 turn 변경
+            }
         }
 
         private void promotionPawn(Square square)
@@ -418,7 +482,7 @@ namespace DBtest.chess
             {
                 if((square.team == ChessTeam.WHITE && square.rowNumber == 0) || (square.team == ChessTeam.BLACK && square.rowNumber == 7))
                 {
-                    PromotionForm promotionForm = new PromotionForm();
+                    PromotionForm promotionForm = new PromotionForm(this.chessTurn);
                     promotionForm.Owner=this;
                     if (promotionForm.ShowDialog() == DialogResult.Cancel)
                     {
@@ -435,32 +499,19 @@ namespace DBtest.chess
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    // Change ForeColor
-                    if (board.ofPosition[row, col].team == ChessTeam.WHITE)
-                    {
-                        boardButtons[row, col].ForeColor = Color.White;
-                    }
-                    else if (board.ofPosition[row, col].team == ChessTeam.BLACK)
-                    {
-                        boardButtons[row, col].ForeColor = Color.Black;
-                    }
-                    else
-                    {
-                        boardButtons[row, col].ForeColor = Color.Red;
-                    }
-
-
-                    // Change Text
                     if (board.ofPosition[row, col].IsExpected)
                     {
-                        boardButtons[row, col].Text = "go?";
+                        boardButtons[row, col].ForeColor = Color.Red;
+                        boardButtons[row, col].Text = "●";
                     }
                     else if (board.ofPosition[row, col].IsPieceOn)
                     {
-                        boardButtons[row, col].Text = board.ofPosition[row, col].pieceName.ToString();
+                        SetChessPieceImage(row, col);
+                        boardButtons[row, col].Text = "";
                     }
                     else
                     {
+                        SetChessPieceImage(row, col);
                         boardButtons[row, col].Text = "";
                     }
                 }
@@ -491,22 +542,38 @@ namespace DBtest.chess
 
         private void tmrClock_Tick(object sender, EventArgs e)
         {
-            // 시간 지남에 따라 시간 줄어듬
-            int nextCount = Int32.Parse(tmrTxt.Text) - 1;
-
-            if (nextCount == -1) // 시간 끝나면 show message & turn 강제 변경 
+            if (tmrTxt.Text == "READY")
             {
-                tmrClock.Stop();
-                var result = MessageBox.Show("Time Out. Change Turn.");
-                if (result == DialogResult.OK)
+                if (m_bConnect)
                 {
-                    board.setExpectedClear();
-                    changeTurn();
+                    tmrTxt.Text = LIMITTIME.ToString();
                 }
             }
-            else // text 변경
+            else
             {
-                tmrTxt.Text = nextCount.ToString();
+                // 시간 지남에 따라 시간 줄어듬
+                int nextCount = Int32.Parse(tmrTxt.Text) - 1;
+
+                if (nextCount == -1) // 시간 끝나면 show message & turn 강제 변경 
+                {
+                    tmrClock.Stop();
+                    if (chessTurn == chessTeam)
+                    {
+                        var result = MessageBox.Show("Time Out. Change Turn.");
+                        if (result == DialogResult.OK)
+                        {
+                            board.setExpectedClear();
+
+                            // board 정보 보내기
+
+                            changeTurn();
+                        }
+                    }
+                }
+                else // text 변경
+                {
+                    tmrTxt.Text = nextCount.ToString();
+                }
             }
         }
 
@@ -521,13 +588,14 @@ namespace DBtest.chess
                 changeChessForm();
             }
 
-            // user에 승 패 기록 
+            // player에 승 패 기록 
         }
 
         private void ChessForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ServerStop();
             Disconnect();
+            
         }
     }
 }
