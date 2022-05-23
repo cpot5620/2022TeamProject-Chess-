@@ -137,6 +137,10 @@ namespace DBtest.chess
 
                                 // board 받으면 읽어서 해당 데이터로 설정
                                 // changeTurn
+
+                                // 패배 정보 받으면 tmrClock.Stop()
+                                // player에 패 기록
+                                // show MessageBox
                         }
                     }
 
@@ -227,8 +231,12 @@ namespace DBtest.chess
                             }));
                             break;
 
-                            /// board 받으면 읽어서 해당 데이터로 설정
+                            // board 받으면 읽어서 해당 데이터로 설정
                             // changeTurn
+
+                            // 패배 정보 받으면 tmrClock.Stop()
+                            // player에 패 기록
+                            // show MessageBox
                     }
                 }
             }
@@ -352,20 +360,6 @@ namespace DBtest.chess
                     {
                         boardButtons[row, col].BackColor = Color.BurlyWood;
                     }
-
-                    // Set ForeColor
-                    if (board.ofPosition[row, col].team == ChessTeam.WHITE)
-                    {
-                        boardButtons[row, col].ForeColor = Color.White;
-                    }
-                    else if (board.ofPosition[row, col].team == ChessTeam.BLACK)
-                    {
-                        boardButtons[row, col].ForeColor = Color.Black;
-                    }
-                    else
-                    {
-                        boardButtons[row, col].ForeColor = Color.Red;
-                    }
                 }
             }
 
@@ -454,7 +448,7 @@ namespace DBtest.chess
                 }
                 else // click normal square -> do nothing
                 {
-                    MessageBox.Show("It's just a board");
+                    MessageBox.Show("It's a board");
                 }
             }
             promotionPawn(curSquare);
@@ -503,11 +497,6 @@ namespace DBtest.chess
                     {
                         boardButtons[row, col].ForeColor = Color.Red;
                         boardButtons[row, col].Text = "●";
-                    }
-                    else if (board.ofPosition[row, col].IsPieceOn)
-                    {
-                        SetChessPieceImage(row, col);
-                        boardButtons[row, col].Text = "";
                     }
                     else
                     {
@@ -579,7 +568,10 @@ namespace DBtest.chess
 
         private void Checkmate()
         {
-            ChessTeam winnerTeam = chessTurn;
+            ChessTeam winnerTeam = chessTurn;   
+
+            // 패배 정보 전달
+            // player에 승 기록 
 
             var result = MessageBox.Show("Checkmate!!\nWinner is " + winnerTeam.ToString() + "");
             if (result == DialogResult.OK)
@@ -587,8 +579,6 @@ namespace DBtest.chess
                 board.setBoard();
                 changeChessForm();
             }
-
-            // player에 승 패 기록 
         }
 
         private void ChessForm_FormClosing(object sender, FormClosingEventArgs e)
