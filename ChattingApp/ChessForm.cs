@@ -40,11 +40,13 @@ namespace DBtest.chess
         public Button[,] boardButtons = new Button[8, 8];
         private bool readyToMove = false; // when marking expected, true
         private Square preSquare;
+        private bool clickExpected = false;
         private ChessTeam chessTurn; // 게임 전체 턴
         private readonly ChessTeam chessTeam; // player 의 team
         public ChessPiece promotionPiece;
+        private ChessTeam winnerTeam; // 승자
 
-        private const int LIMITTIME = 10;
+        private const int LIMITTIME = 30;
 
         //private Player player;
 
@@ -146,29 +148,19 @@ namespace DBtest.chess
                             case (int)PacketType.Winner:
                                 this.Invoke(new MethodInvoker(delegate ()
                                 {
+                                    tmrClock.Stop();
                                     Winner CT = (Winner)Packet.Desserialize(this.readBuffer);
-                                    chessTurn = CT.chessTeam;
+                                    winnerTeam = CT.chessTeam;
                                     m_ThReader = new Thread(new ThreadStart(Checkmate));
                                     m_ThReader.Start();
 
                                 }));
                                 break;
-
-                                // board 받으면 읽어서 해당 데이터로 설정
-                                //changeChessForm
-                                // changeTurn
-
-                                // 패배 정보 받으면 tmrClock.Stop()
-                                // player에 패 기록
-                                // show MessageBox
                         }
                     }
-
-
                     /*
                     m_ThReader = new Thread(new ThreadStart(Receive));
                     m_ThReader.Start();*/
-
                 }
             }
             catch
@@ -259,21 +251,16 @@ namespace DBtest.chess
                                 m_ThReader.Start();
                             }));
                             break;
-                        case (int)PacketType.Winner:
+                        case (int)PacketType.Winner: 
                             this.Invoke(new MethodInvoker(delegate ()
                             {
+                                tmrClock.Stop();
                                 Winner CT = (Winner)Packet.Desserialize(this.readBuffer);
-                                chessTurn = CT.chessTeam;
+                                winnerTeam = CT.chessTeam;
                                 m_ThReader = new Thread(new ThreadStart(Checkmate));
                                 m_ThReader.Start();
                             }));
                             break;
-                            // board 받으면 읽어서 해당 데이터로 설정
-                            // changeTurn
-
-                            // 패배 정보 받으면 tmrClock.Stop()
-                            // player에 패 기록
-                            // show MessageBox
                     }
                 }
             }
@@ -367,6 +354,7 @@ namespace DBtest.chess
 
             boardButtons[row, col].ImageIndex = result;
         }
+
         private void setButtons() // make buttons in panel
         {
             int btnLength = boardPanel.Width / 8;
@@ -424,17 +412,18 @@ namespace DBtest.chess
             {
                 if (readyToMove == false) // click chess piece -> mark expected move
                 {
-                    if (chessTurn != curSquare.team) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != curSquare.team || clickExpected) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
 
                     board.markExpectedMovement(curSquare);
                     readyToMove = true;
+                    clickExpected = true;
                 }
                 else if (curSquare.IsExpected) // click enemy's chess piece -> move piece(atatck)
                 {
-                    if (chessTurn != preSquare.team) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != preSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
@@ -450,17 +439,24 @@ namespace DBtest.chess
 
                     isMove = board.moveChessPiece(preSquare, curSquare);
                     readyToMove = false;
+                    clickExpected = false;
 
                 }
                 else // click chess piece again -> unmark expected move
                 {
-                    if (chessTurn != curSquare.team) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != curSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
+                    {
+                        return;
+                    }
+
+                    if (clickExpected && curSquare != preSquare)
                     {
                         return;
                     }
 
                     board.unmarkExpectedMovement(curSquare);
                     readyToMove = false;
+                    clickExpected = false;
                 }
 
             }
@@ -468,7 +464,7 @@ namespace DBtest.chess
             {
                 if (curSquare.IsExpected) // click expected piece -> move piece
                 {
-                    if (chessTurn != preSquare.team) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != preSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
@@ -482,10 +478,11 @@ namespace DBtest.chess
 
                     isMove = board.moveChessPiece(preSquare, curSquare);
                     readyToMove = false;
+                    clickExpected = false;
                 }
                 else // click normal square -> do nothing
                 {
-                    MessageBox.Show("It's a board");
+                    return;
                 }
             }
             promotionPawn(curSquare);
@@ -500,18 +497,23 @@ namespace DBtest.chess
                 winner.chessTeam = chessTurn;
                 Packet.Serialize(winner).CopyTo(this.sendBuffer, 0);
                 this.Send();
+
+                winnerTeam = chessTurn;
                 Checkmate();
                 return;
             }
 
             if (isMove)
             {
+                board.setExpectedClear();
+
                 // 이동 시 board 정보 보내기
                 ChessBoard CB = new ChessBoard();
                 CB.type = (int)PacketType.ChessBoard;
                 CB.arr = (Square[,])board.ofPosition.Clone();
                 Packet.Serialize(CB).CopyTo(this.sendBuffer, 0);
                 this.Send();
+
                 changeTurn(); // 이동 시 turn 변경
             }
         }
@@ -541,19 +543,13 @@ namespace DBtest.chess
                 {
                     if (board.ofPosition[row, col].IsExpected)
                     {
-
-
                         boardButtons[row, col].ForeColor = Color.Red;
                         boardButtons[row, col].Text = "●";
-
                     }
                     else
                     {
-
-
                         SetChessPieceImage(row, col);
                         boardButtons[row, col].Text = "";
-
                     }
                 }
             }
@@ -573,15 +569,13 @@ namespace DBtest.chess
                     turnBox.BackColor = Color.White;
                     break;
             }
-            this.Invoke(new MethodInvoker(delegate ()
+            this.Invoke(new MethodInvoker(delegate () // reset timer
             {
                 tmrClock.Stop();
                 tmrTxt.Text = LIMITTIME.ToString();
                 changeChessForm();
                 tmrClock.Start();
             }));
-            // reset timer
-
         }
 
         private void tmrClock_Tick(object sender, EventArgs e)
@@ -604,15 +598,16 @@ namespace DBtest.chess
                     if (chessTurn == chessTeam)
                     {
                         var result = MessageBox.Show("Time Out. Change Turn.");
+                        board.setExpectedClear();
+
                         ChessBoard CB = new ChessBoard();
                         CB.type = (int)PacketType.ChessBoard;
                         CB.arr = (Square[,])board.ofPosition.Clone();
                         Packet.Serialize(CB).CopyTo(this.sendBuffer, 0);
-                        this.Send();
                         changeTurn();
                         if (result == DialogResult.OK)
                         {
-                            board.setExpectedClear();
+                            this.Send();
                         }
                     }
                 }
@@ -625,16 +620,22 @@ namespace DBtest.chess
 
         private void Checkmate()
         {
-            ChessTeam winnerTeam = chessTurn;
-
-            // 패배 정보 전달
-            // player에 승 기록 
-
             var result = MessageBox.Show("Checkmate!!\nWinner is " + winnerTeam.ToString() + "");
+            
+/*            if (chessTeam == winnerTeam)
+            {
+                // player에 승 기록
+            }
+            else
+            {
+                // player에 패 기록
+            }*/
+            
             if (result == DialogResult.OK)
             {
                 board.setBoard();
                 changeChessForm();
+                tmrTxt.Text = "READY";
             }
         }
 
