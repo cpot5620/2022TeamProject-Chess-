@@ -40,7 +40,6 @@ namespace DBtest.chess
         public Button[,] boardButtons = new Button[8, 8];
         private bool readyToMove = false; // when marking expected, true
         private Square preSquare;
-        private bool clickExpected = false;
         private ChessTeam chessTurn; // 게임 전체 턴
         private readonly ChessTeam chessTeam; // player 의 team
         public ChessPiece promotionPiece;
@@ -412,18 +411,17 @@ namespace DBtest.chess
             {
                 if (readyToMove == false) // click chess piece -> mark expected move
                 {
-                    if (chessTurn != curSquare.team || clickExpected) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != curSquare.team || readyToMove) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
 
                     board.markExpectedMovement(curSquare);
                     readyToMove = true;
-                    clickExpected = true;
                 }
                 else if (curSquare.IsExpected) // click enemy's chess piece -> move piece(atatck)
                 {
-                    if (chessTurn != preSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != preSquare.team || !readyToMove) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
@@ -439,24 +437,22 @@ namespace DBtest.chess
 
                     isMove = board.moveChessPiece(preSquare, curSquare);
                     readyToMove = false;
-                    clickExpected = false;
 
                 }
                 else // click chess piece again -> unmark expected move
                 {
-                    if (chessTurn != curSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != curSquare.team || !readyToMove) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
 
-                    if (clickExpected && curSquare != preSquare)
+                    if (readyToMove && curSquare != preSquare)
                     {
                         return;
                     }
 
                     board.unmarkExpectedMovement(curSquare);
                     readyToMove = false;
-                    clickExpected = false;
                 }
 
             }
@@ -464,7 +460,7 @@ namespace DBtest.chess
             {
                 if (curSquare.IsExpected) // click expected piece -> move piece
                 {
-                    if (chessTurn != preSquare.team || !clickExpected) // 상대방의 turn일 때 처리 X
+                    if (chessTurn != preSquare.team || !readyToMove) // 상대방의 turn일 때 처리 X
                     {
                         return;
                     }
@@ -478,7 +474,6 @@ namespace DBtest.chess
 
                     isMove = board.moveChessPiece(preSquare, curSquare);
                     readyToMove = false;
-                    clickExpected = false;
                 }
                 else // click normal square -> do nothing
                 {
@@ -597,18 +592,19 @@ namespace DBtest.chess
                     tmrClock.Stop();
                     if (chessTurn == chessTeam)
                     {
-                        var result = MessageBox.Show("Time Out. Change Turn.");
+                        var result = MessageBox.Show("Time Out.\nChange Turn", "TIME OUT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         board.setExpectedClear();
+                        readyToMove = false;
 
                         ChessBoard CB = new ChessBoard();
                         CB.type = (int)PacketType.ChessBoard;
                         CB.arr = (Square[,])board.ofPosition.Clone();
                         Packet.Serialize(CB).CopyTo(this.sendBuffer, 0);
-                        changeTurn();
                         if (result == DialogResult.OK)
                         {
                             this.Send();
                         }
+                        changeTurn();
                     }
                 }
                 else // text 변경
@@ -620,7 +616,7 @@ namespace DBtest.chess
 
         private void Checkmate()
         {
-            var result = MessageBox.Show("Checkmate!!\nWinner is " + winnerTeam.ToString() + "");
+            var result = MessageBox.Show("CHECKMATE!!\nWinner is " + winnerTeam.ToString(), "CHECKMATE", MessageBoxButtons.OK, MessageBoxIcon.Information);
             
 /*            if (chessTeam == winnerTeam)
             {
