@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3a6ce7e9-c9e6-467f-bb6a-4ddaedf7aad2": {
+      "ProjectGuid": "3a6ce7e9-c9e6-467f-bb6a-4ddaedf7aad2",
+      "DisplayName": "DBtest",
+      "ColorIndex": 0
+    },
+    "ff77ff98-66a0-405c-906a-7e9bf96c343e": {
+      "ProjectGuid": "ff77ff98-66a0-405c-906a-7e9bf96c343e",
+      "DisplayName": "ChattingApp",
+      "ColorIndex": 1
+    },
+    "53599dd3-0099-423a-b595-e4ae329991a6": {
+      "ProjectGuid": "53599dd3-0099-423a-b595-e4ae329991a6",
+      "DisplayName": "ClassLibrary1",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
