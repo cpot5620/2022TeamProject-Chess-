@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace DBtest
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MetroFramework.Forms.MetroForm
     {
         string _server = "kw-chess.c7srdygxxtpt.ap-northeast-2.rds.amazonaws.com";
         int _port = 3306;
@@ -220,6 +220,11 @@ namespace DBtest
             {
                 MessageBox.Show(ex.Message);
             }*/
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

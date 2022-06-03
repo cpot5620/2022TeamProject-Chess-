@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace DBtest
 {
-    public partial class form3 : Form
+    public partial class form3 : MetroFramework.Forms.MetroForm
     {
         static public string auth_user;
         string _server = "kw-chess.c7srdygxxtpt.ap-northeast-2.rds.amazonaws.com";
@@ -81,6 +81,7 @@ namespace DBtest
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            user_picture.ImageLocation = string.Format("https://item.kakaocdn.net/do/bf8d88a106e383adbb6c08cedd093f9bf43ad912ad8dd55b04db6a64cddaf76d");
             try
             {
                 using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
@@ -91,7 +92,7 @@ namespace DBtest
                     MySqlDataReader table = command.ExecuteReader();
                     while(table.Read())
                     {
-                        string[] arr = new string[10];
+                        string[] arr = new string[8];
                         arr[0] = table["id"].ToString();
                         arr[1] = table["name"].ToString();
                         arr[2] = table["password"].ToString();
@@ -111,21 +112,16 @@ namespace DBtest
                             txt_phone.AppendText(arr[5]);
                             txt_win.AppendText(arr[8]);
                             txt_lose.AppendText(arr[9]);
-                            int win = Convert.ToInt32(arr[8]);
-                            int lose = Convert.ToInt32(arr[9]);
-                            
+                            int win = Int16.Parse(arr[8]);
+                            int lose = Int16.Parse(arr[9]);
                             int ratio = 0;
-                            if (win == 0)
+                            if (win == 0 && lose == 0)
                             {
                                 ratio = 0;
                             }
                             else
                             {
-                                if (lose == 0)
-                                {
-                                    ratio = 100;
-                                }
-                                ratio = ((100 * win) / (lose + win));
+                                ratio = 100 * (win / (lose + win));
                             }
                             txt_ratio.AppendText(ratio.ToString());
                             if (arr[7] =="0")
@@ -164,7 +160,19 @@ namespace DBtest
 
         private void user_picture_Click(object sender, EventArgs e)
         {
+            string image_file = string.Empty;
 
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); ;
+            dialog.Filter = "( *.bmp; *.jpg; *.png; *.jpeg) | *.BMP; *.JPG; *.PNG; *.JPEG";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                image_file = dialog.FileName;
+            else if (dialog.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            user_picture.Image = Bitmap.FromFile(image_file);
+            user_picture.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void form3_FormClosed(object sender, FormClosedEventArgs e)

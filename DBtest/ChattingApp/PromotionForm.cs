@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ChattingApp
 {
-    public partial class PromotionForm : Form
+    public partial class PromotionForm : MetroFramework.Forms.MetroForm
     {
         private ChessTeam chessTeam;
         public PromotionForm(ChessTeam chessteam)

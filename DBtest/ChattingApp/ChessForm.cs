@@ -17,7 +17,7 @@ using MySql.Data.MySqlClient;
 
 namespace DBtest.chess
 {
-    public partial class ChessForm : Form
+    public partial class ChessForm : MetroFramework.Forms.MetroForm
     {
         static public string auth_user;
         public NetworkStream m_Stream;
@@ -636,7 +636,7 @@ namespace DBtest.chess
                     using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
                     {
                         mysql.Open(); 
-                        string updateQuery = string.Format("UPDATE accounts_table SET user_win = user_win + 1 WHERE name = {0};", auth_user);
+                        string updateQuery = string.Format("Update accounts_table SET user_win = user_win + 1 WHERE name = {0};", auth_user);
                         MySqlCommand command = new MySqlCommand(updateQuery, mysql);
                         if (command.ExecuteNonQuery() != 1)
                         {

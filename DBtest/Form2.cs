@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace DBtest
 {
-    public partial class Form2 : Form
+    public partial class Form2 : MetroFramework.Forms.MetroForm
     {
         string _server = "kw-chess.c7srdygxxtpt.ap-northeast-2.rds.amazonaws.com";
         int _port = 3306;

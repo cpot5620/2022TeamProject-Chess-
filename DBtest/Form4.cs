@@ -11,7 +11,7 @@ using ChattingApp;
 using DBtest.chess;
 namespace DBtest
 {
-    public partial class Form4 : Form
+    public partial class Form4 : MetroFramework.Forms.MetroForm
     {
         public Form4()
         {

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ChattingApp
 {
-    public partial class accessForm : Form
+    public partial class accessForm : MetroFramework.Forms.MetroForm
     {
         public accessForm()
         {

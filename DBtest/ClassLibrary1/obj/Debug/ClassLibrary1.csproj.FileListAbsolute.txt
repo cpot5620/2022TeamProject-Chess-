@@ -22,3 +22,13 @@ C:\Users\CR7\Desktop\GIT\2022TeamProject-Chess--profile\DBtest\ClassLibrary1\obj
 C:\Users\CR7\Desktop\GIT\2022TeamProject-Chess--profile\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CoreCompileInputs.cache
 C:\Users\CR7\Desktop\GIT\2022TeamProject-Chess--profile\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.dll
 C:\Users\CR7\Desktop\GIT\2022TeamProject-Chess--profile\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\bin\Debug\MetroFramework.Design.dll
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\bin\Debug\MetroFramework.dll
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.AssemblyReference.cache
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CopyComplete
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+C:\Users\KJH\Desktop\체스\2022TeamProject-Chess--chess-chat\DBtest\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
