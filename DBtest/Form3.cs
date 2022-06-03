@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace DBtest
 {
-    public partial class form3 : MetroFramework.Forms.MetroForm
+    public partial class form3 : Form
     {
         static public string auth_user;
         string _server = "kw-chess.c7srdygxxtpt.ap-northeast-2.rds.amazonaws.com";
@@ -23,7 +23,7 @@ namespace DBtest
         string _connectionAddress = "";
         Boolean form4_opening = false;
         Boolean save = true;
-        
+
         public form3()
         {
             InitializeComponent();
@@ -81,7 +81,6 @@ namespace DBtest
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            user_picture.ImageLocation = string.Format("https://item.kakaocdn.net/do/bf8d88a106e383adbb6c08cedd093f9bf43ad912ad8dd55b04db6a64cddaf76d");
             try
             {
                 using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
@@ -90,9 +89,9 @@ namespace DBtest
                     string selectQuery = string.Format("select * from accounts_table");
                     MySqlCommand command = new MySqlCommand(selectQuery, mysql);
                     MySqlDataReader table = command.ExecuteReader();
-                    while(table.Read())
+                    while (table.Read())
                     {
-                        string[] arr = new string[8];
+                        string[] arr = new string[10];
                         arr[0] = table["id"].ToString();
                         arr[1] = table["name"].ToString();
                         arr[2] = table["password"].ToString();
@@ -103,8 +102,8 @@ namespace DBtest
                         arr[7] = table["user_image"].ToString();
                         arr[8] = table["user_win"].ToString();
                         arr[9] = table["user_lose"].ToString();
-      
-                        if(auth_user == arr[1])
+
+                        if (auth_user == arr[1])
                         {
                             txt_name.AppendText(arr[3]);
                             txt_id.AppendText(arr[0]);
@@ -112,19 +111,24 @@ namespace DBtest
                             txt_phone.AppendText(arr[5]);
                             txt_win.AppendText(arr[8]);
                             txt_lose.AppendText(arr[9]);
-                            int win = Int16.Parse(arr[8]);
-                            int lose = Int16.Parse(arr[9]);
+                            int win = Convert.ToInt32(arr[8]);
+                            int lose = Convert.ToInt32(arr[9]);
+
                             int ratio = 0;
-                            if (win == 0 && lose == 0)
+                            if (win == 0)
                             {
                                 ratio = 0;
                             }
                             else
                             {
-                                ratio = 100 * (win / (lose + win));
+                                if (lose == 0)
+                                {
+                                    ratio = 100;
+                                }
+                                ratio = ((100 * win) / (lose + win));
                             }
                             txt_ratio.AppendText(ratio.ToString());
-                            if (arr[7] =="0")
+                            if (arr[7] == "0")
                             {
                                 using (MySqlConnection mysql2 = new MySqlConnection(_connectionAddress))
                                 {
@@ -152,7 +156,7 @@ namespace DBtest
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -160,25 +164,14 @@ namespace DBtest
 
         private void user_picture_Click(object sender, EventArgs e)
         {
-            string image_file = string.Empty;
 
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); ;
-            dialog.Filter = "( *.bmp; *.jpg; *.png; *.jpeg) | *.BMP; *.JPG; *.PNG; *.JPEG";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-                image_file = dialog.FileName;
-            else if (dialog.ShowDialog() == DialogResult.Cancel)
-                return;
-
-            user_picture.Image = Bitmap.FromFile(image_file);
-            user_picture.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void form3_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Hide();
-            if (form4_opening == false) {
+            if (form4_opening == false)
+            {
                 Form4 form4 = new Form4();
                 form4.Text = "새창2";
                 form4.ShowDialog();
