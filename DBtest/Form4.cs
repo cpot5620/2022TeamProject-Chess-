@@ -47,6 +47,14 @@ namespace DBtest
         {
             ChessForm form = new ChessForm();
             form.Show();
-        } 
+        }
+
+        private void btn_shop_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form5 form5 = new Form5();
+            form5.ShowDialog();
+            this.Close();
+        }
     }
 }

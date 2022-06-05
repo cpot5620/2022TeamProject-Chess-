@@ -636,7 +636,7 @@ namespace DBtest.chess
                     using (MySqlConnection mysql = new MySqlConnection(_connectionAddress))
                     {
                         mysql.Open(); 
-                        string updateQuery = string.Format("Update accounts_table SET user_win = user_win + 1 WHERE name = {0};", auth_user);
+                        string updateQuery = string.Format("Update accounts_table SET user_win = user_win + 1,user_point = user_point + 10 WHERE name = {0};", auth_user);
                         MySqlCommand command = new MySqlCommand(updateQuery, mysql);
                         if (command.ExecuteNonQuery() != 1)
                         {
@@ -692,6 +692,11 @@ namespace DBtest.chess
                 ServerStop();
             else
                 Disconnect();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

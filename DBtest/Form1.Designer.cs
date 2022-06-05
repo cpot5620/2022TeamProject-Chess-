@@ -130,9 +130,9 @@
             this.panel1.Controls.Add(this.btn_login);
             this.panel1.Controls.Add(this.txtName);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(-4, 24);
+            this.panel1.Location = new System.Drawing.Point(-4, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(424, 420);
+            this.panel1.Size = new System.Drawing.Size(424, 444);
             this.panel1.TabIndex = 6;
             // 
             // Form1

@@ -33,6 +33,7 @@
             this.btn_profile = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_shop = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,7 @@
             this.btn_start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_start.Font = new System.Drawing.Font("Lucida Calligraphy", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_start.ForeColor = System.Drawing.Color.White;
-            this.btn_start.Location = new System.Drawing.Point(269, 105);
+            this.btn_start.Location = new System.Drawing.Point(262, 84);
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(268, 55);
             this.btn_start.TabIndex = 0;
@@ -58,7 +59,7 @@
             this.btn_profile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_profile.Font = new System.Drawing.Font("Lucida Calligraphy", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_profile.ForeColor = System.Drawing.Color.White;
-            this.btn_profile.Location = new System.Drawing.Point(241, 21);
+            this.btn_profile.Location = new System.Drawing.Point(132, 21);
             this.btn_profile.Name = "btn_profile";
             this.btn_profile.Size = new System.Drawing.Size(128, 40);
             this.btn_profile.TabIndex = 1;
@@ -73,7 +74,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Lucida Calligraphy", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(444, 21);
+            this.button1.Location = new System.Drawing.Point(311, 21);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(164, 40);
@@ -86,6 +87,7 @@
             // 
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Controls.Add(this.btn_shop);
             this.panel1.Controls.Add(this.btn_profile);
             this.panel1.Controls.Add(this.btn_start);
             this.panel1.Controls.Add(this.button1);
@@ -93,6 +95,22 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 427);
             this.panel1.TabIndex = 3;
+            // 
+            // btn_shop
+            // 
+            this.btn_shop.BackColor = System.Drawing.Color.Transparent;
+            this.btn_shop.FlatAppearance.BorderSize = 0;
+            this.btn_shop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_shop.Font = new System.Drawing.Font("Lucida Calligraphy", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_shop.ForeColor = System.Drawing.Color.White;
+            this.btn_shop.Location = new System.Drawing.Point(500, 21);
+            this.btn_shop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_shop.Name = "btn_shop";
+            this.btn_shop.Size = new System.Drawing.Size(164, 40);
+            this.btn_shop.TabIndex = 3;
+            this.btn_shop.Text = "Shop";
+            this.btn_shop.UseVisualStyleBackColor = false;
+            this.btn_shop.Click += new System.EventHandler(this.btn_shop_Click);
             // 
             // Form4
             // 
@@ -114,5 +132,6 @@
         private System.Windows.Forms.Button btn_profile;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btn_shop;
     }
 }

@@ -35,7 +35,7 @@ namespace DBtest
 
         private void btn_back_Click(object sender, EventArgs e)
         {
-            if (btn_back.Text == "뒤로")
+            if (btn_back.Text == "back")
             {
                 this.Hide();
                 Form4 form4 = new Form4();
@@ -59,7 +59,7 @@ namespace DBtest
                     txt_email.Enabled = false;
                     txt_phone.Enabled = false;
                     user_picture.Enabled = false;
-                    btn_back.Text = "뒤로";
+                    btn_back.Text = "back";
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace DBtest
                     txt_email.Enabled = false;
                     txt_phone.Enabled = false;
                     user_picture.Enabled = false;
-                    btn_back.Text = "뒤로";
+                    btn_back.Text = "back";
                 }
 
             }
@@ -249,6 +249,11 @@ namespace DBtest
         }
 
         private void txt_win_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_name_TextChanged(object sender, EventArgs e)
         {
 
         }

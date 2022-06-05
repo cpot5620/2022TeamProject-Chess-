@@ -118,7 +118,7 @@
             // 
             // txt_name
             // 
-            this.txt_name.BackColor = System.Drawing.Color.Sienna;
+            this.txt_name.BackColor = System.Drawing.Color.Snow;
             this.txt_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_name.Enabled = false;
             this.txt_name.Font = new System.Drawing.Font("Lucida Calligraphy", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -127,10 +127,11 @@
             this.txt_name.ReadOnly = true;
             this.txt_name.Size = new System.Drawing.Size(220, 29);
             this.txt_name.TabIndex = 5;
+            this.txt_name.TextChanged += new System.EventHandler(this.txt_name_TextChanged);
             // 
             // txt_id
             // 
-            this.txt_id.BackColor = System.Drawing.Color.Sienna;
+            this.txt_id.BackColor = System.Drawing.Color.Snow;
             this.txt_id.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_id.Enabled = false;
             this.txt_id.Font = new System.Drawing.Font("Lucida Calligraphy", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -142,7 +143,7 @@
             // 
             // txt_email
             // 
-            this.txt_email.BackColor = System.Drawing.Color.Sienna;
+            this.txt_email.BackColor = System.Drawing.Color.Snow;
             this.txt_email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_email.Enabled = false;
             this.txt_email.Font = new System.Drawing.Font("Lucida Calligraphy", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -154,7 +155,7 @@
             // 
             // txt_phone
             // 
-            this.txt_phone.BackColor = System.Drawing.Color.Sienna;
+            this.txt_phone.BackColor = System.Drawing.Color.Snow;
             this.txt_phone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_phone.Enabled = false;
             this.txt_phone.Font = new System.Drawing.Font("Lucida Calligraphy", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -207,7 +208,7 @@
             this.btn_back.Name = "btn_back";
             this.btn_back.Size = new System.Drawing.Size(80, 33);
             this.btn_back.TabIndex = 11;
-            this.btn_back.Text = "Back";
+            this.btn_back.Text = "back";
             this.btn_back.UseVisualStyleBackColor = true;
             this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
             // 
