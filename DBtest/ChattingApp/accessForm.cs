@@ -27,6 +27,7 @@ namespace ChattingApp
         {
             ChessForm Form = new ChessForm(txtPort.Text);
             Form.Show();
+            this.Close();
             //시발누가이거추가했냐 ?Form.Connect(); 시발 누가이거 추가해서 엔터로 안누르면 커넥트 두번되서 터지는거임 병신같은새끼 누구임 //
         }
 

@@ -44,7 +44,7 @@ namespace DBtest.chess
         private Square preSquare;
         private ChessTeam chessTurn; // 게임 전체 턴
         private readonly ChessTeam chessTeam; // player 의 team
-        public ChessPiece promotionPiece;
+        static public ChessPiece promotionPiece;
         private ChessTeam winnerTeam; // 승자
 
         private const int LIMITTIME = 30;
@@ -524,7 +524,8 @@ namespace DBtest.chess
                 if ((square.team == ChessTeam.WHITE && square.rowNumber == 0) || (square.team == ChessTeam.BLACK && square.rowNumber == 7))
                 {
                     PromotionForm promotionForm = new PromotionForm(this.chessTurn);
-                    promotionForm.Owner = this;
+                    //promotionForm.TopLevel = false;
+                    //promotionForm.Owner = this;
                     if (promotionForm.ShowDialog() == DialogResult.Cancel)
                     {
                         square.pieceName = promotionPiece;
@@ -679,7 +680,11 @@ namespace DBtest.chess
             {
                 board.setBoard();
                 changeChessForm();
-                tmrTxt.Text = "READY";
+                this.Invoke(new MethodInvoker(delegate () // reset timer
+                {
+                    tmrTxt.Text = "READY";
+                }));
+                /*tmrTxt.Text = "READY";*/
 
             }
         }
@@ -692,11 +697,6 @@ namespace DBtest.chess
                 ServerStop();
             else
                 Disconnect();
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

@@ -54,20 +54,20 @@ namespace ChattingApp
         {
             var btn = sender as Button;
 
-            ChessForm chessForm = (ChessForm)Owner;
+            //ChessForm chessForm = (ChessForm)Owner;
             switch (btn.Tag.ToString())
             {
                 case "QUEEN":
-                    chessForm.promotionPiece = ChessPiece.QUEEN;
+                    ChessForm.promotionPiece = ChessPiece.QUEEN;
                     break;
                 case "BISHOP":
-                    chessForm.promotionPiece = ChessPiece.BISHOP;
+                    ChessForm.promotionPiece = ChessPiece.BISHOP;
                     break;
                 case "ROOK":
-                    chessForm.promotionPiece = ChessPiece.ROOK;
+                    ChessForm.promotionPiece = ChessPiece.ROOK;
                     break;
                 case "KNIGHT":
-                    chessForm.promotionPiece = ChessPiece.KNIGHT;
+                    ChessForm.promotionPiece = ChessPiece.KNIGHT;
                     break;
             }
 
