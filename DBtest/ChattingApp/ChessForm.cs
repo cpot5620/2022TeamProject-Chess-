@@ -484,12 +484,9 @@ namespace DBtest.chess
                     return;
                 }
             }
-            promotionPawn(curSquare);
-            changeChessForm();
-            preSquare = curSquare;
-
             if (isKing) // Checkmate
             {
+                changeChessForm();
                 tmrClock.Stop();
                 Winner winner = new Winner();
                 winner.type = (int)PacketType.Winner;
@@ -501,6 +498,11 @@ namespace DBtest.chess
                 Checkmate();
                 return;
             }
+            
+            promotionPawn(curSquare);
+            changeChessForm();
+            preSquare = curSquare;
+            
 
             if (isMove)
             {
